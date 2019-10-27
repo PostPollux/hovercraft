@@ -56,9 +56,15 @@ def gather_positions(tree):
         # multiply data-x, data-y, data-z with the scale if we use "r". Otherwise all the relative positions would not look the same anymore if we change the scale somewhere
         ATTRIBUTES_TO_FIX = ['data-x', 'data-y', 'data-z']
 
-        if pos['data-scale'] == 'r0':
-            # make sure every step has a scale value and is not "r0". This works as the first slide always has a value.
-            pos['data-scale'] = steps[step_number-2].get('data-scale')
+        if pos['data-scale'].startswith('r'):
+            if pos['data-scale'] == 'r0':
+                # make sure every step has a scale value and is not "r0". This works as the first slide always has a value.
+                pos['data-scale'] = steps[step_number-2].get('data-scale')
+
+            else:
+                scale_float = float(pos['data-scale'].replace('r',''))
+                pos['data-scale'] = str ( scale_float * float(steps[step_number-2].get('data-scale')) ) 
+                
 
         for attribute_to_fix in ATTRIBUTES_TO_FIX:
 
