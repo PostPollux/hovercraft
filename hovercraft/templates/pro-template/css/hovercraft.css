@@ -11,13 +11,106 @@
 */
 
 .impress-supported .fallback-message,
+
+
+/*###############
+ step handling 
+ ################
+ ".active" class gets immediately assigned to the step we are approaching while getting immediately revoked from the step we were looking at.
+ ".present" class gets immediately revoked from the current step when we switch to another. But it only gets assigned to te new step if the transition to it has completed.
+ ".next" class is always assigned to the step that comes next. The moment when the transition has finished it gets revoked from the step we were previously looking at and assigned to the step that comes next.
+ ".prev" class is always assigned to the step that comes next if we go back. The moment when the transition has finished it gets revoked from the step we were previously looking at and assigned to the step that comes next if we go further back.
+ ".future" class is assigned to every step at the beginning. As soon as a transition to that step has finished it will be revoked and never come back
+ ".past" class will be assigned to each step as soon as we are leaving it. The only moment when .past will be removed is when we are going to that step again and when that transition has completed.
+ 
+ Now some states that are not by default in impress.js but were added through this template in the hovercraft.js:
+ ".over" class will be assigned to all steps where the step number is smaller than the current one. Assigning happens as soon we leave a step.
+ ".coming" class will be assigned to all steps where the step number is bigger than the current one. Assigning happens as soon we leave a step.
+
+
+ Example setups:
+ ==============
+
+ Every step is invisible and starts to fade in when we are approaching it (previous steps don't fade in when we jump to a step). Once visible they stay visible:
+ --------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+.step {
+    width: 1200px;
+    transition: opacity 2s;
+}
+
+.step.active {
+    opacity: 1.0;
+}
+
+.step.future:not(.active) { 
+    opacity: 0.0;
+}
+ 
+
+ Every step is quite transparent. ONLY the active step fades in to be fully visible:
+ ----------------------------------------------------------------------------------
+
+.step {
+    width: 1200px;
+    opacity: 0.3;
+    transition: opacity 1s;
+}
+
+.step.active {
+    opacity: 1.0;
+}
+
+
+
+ Every step smaller than the current is visible, while all steps bigger than the current one are invisible.
+ ----------------------------------------------------------------------------------------------------------
+
+.step {
+    width: 1200px;
+    transition: opacity 1.5s;
+}
+
+.step.over {
+  opacity: 1.0;
+}
+
+.step.active {
+    opacity: 1.0;
+}
+
+.step.coming:not(.active) { 
+    opacity: 0.0;
+}
+
+
+###########*/
+
+
 .step .notes {
     display: none;
 }
 
 .step {
-    width: 800px;
+    width: 1200px;
+    transition: opacity 1.5s;
 }
+
+.step.over {
+  opacity: 1.0;
+}
+
+.step.active {
+    opacity: 1.0;
+}
+
+.step.coming {
+    opacity: 0.0;
+}
+
+
+
+/* substep handling */
 
 .substep {
     opacity: 0;
@@ -25,8 +118,10 @@
 
 .substep.substep-visible {
     opacity: 1;
-    transition: opacity 1s;
+    transition: opacity 0.5s;
 }
+
+
 
 
 /* Help popup */
