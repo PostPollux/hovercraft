@@ -122,6 +122,15 @@
 }
 
 
+/* make sure all styles on the background fade. So if we change for example the background-image or the font color we get a nice effect. */
+body {  
+    -webkit-transition: all 1.0s ease;
+       -moz-transition: all 1.0s ease;
+        -ms-transition: all 1.0s ease;
+         -o-transition: all 1.0s ease;
+            transition: all 1.0s ease;
+}
+
 
 
 /* Help popup */
